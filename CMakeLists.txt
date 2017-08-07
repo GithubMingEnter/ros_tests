@@ -4,12 +4,15 @@ project(testing)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
+  rospy_tutorials
 )
+
+add_definitions(-std=c++11 -Wall -g)
 
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
-  CATKIN_DEPENDS roscpp std_msgs
+  CATKIN_DEPENDS roscpp std_msgs rospy_tutorials
   DEPENDS system_lib
 )
 
@@ -42,3 +45,9 @@ install(DIRECTORY include/${PROJECT_NAME}/
   FILES_MATCHING PATTERN "*.h"
   PATTERN ".svn" EXCLUDE
 )
+
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  add_rostest_gtest(testing-test launch/gtest.test tests/tests_1.cpp)
+  target_link_libraries(testing-test ${catkin_LIBRARIES} testing)
+endif()
