@@ -14,7 +14,8 @@ class Talker {
         ~Talker(void) {
             
         }
-        void talk();
+        int doSomeMath(int value);
+        void talk(int number);
         ros::NodeHandle nh_;
         ros::Publisher pub_;
 };

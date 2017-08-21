@@ -1,7 +1,5 @@
 #include "testing/talker.h"
 
-#include "rospy_tutorials/AddTwoInts.h"
-
 #include <ros/ros.h>
 
 #include <gtest/gtest.h>
@@ -12,29 +10,24 @@
 // using namespace std;
 
 class MyTestSuite : public ::testing::Test {
-  private:
-    ros::ServiceServer mServer;
-    int a, b;
-    bool mFailService, mFailUnique;
-    bool callback(rospy_tutorials::AddTwoInts::Request& req, rospy_tutorials::AddTwoInts::Response& res){
-      a = req.a;
-      b = req.b;
-      res.sum = a+b;
-      return res.sum;
-    }
   public:
     MyTestSuite() {
-      mServer = ros::NodeHandle().advertiseService("myTestService", &MyTestSuite::callback, this);
     }
     ~MyTestSuite() {}
 };
 
-TEST_F(MyTestSuite, firstTest) {
-  ASSERT_EQ(1, 1) << "Sum is not correct";
+TEST_F(MyTestSuite, lowValue) {  
+  Talker rt;
+  int initial_value = 3;
+  int value = rt.doSomeMath(initial_value);
+  ASSERT_EQ(value, initial_value+5) << "Value should be it's initial value plus 5";
 }
 
-TEST_F(MyTestSuite, secondTest) {
-  ASSERT_EQ(12, 12) << "Sum is not correct";
+TEST_F(MyTestSuite, highValue) {
+  Talker rt;
+  int initial_value = 49;
+  int value = rt.doSomeMath(initial_value);
+  ASSERT_EQ(value, 0) << "Value should be 0";
 }
 
 int main(int argc, char** argv) {
