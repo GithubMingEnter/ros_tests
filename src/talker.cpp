@@ -2,11 +2,13 @@
 
 void Talker::talk(int number){
     std_msgs::String msg;
+    std::stringstream sr;
+    sr<<"kk ";
     std::stringstream ss;
     ss<<"hello world ";
     ss<<number;
     msg.data = ss.str();
-    pub_.publish(msg);
+        pub_.publish(msg);
 }
 
 int Talker::doSomeMath(int value) {
